@@ -300,6 +300,10 @@ func (d *decoder) DecodeData(v *packet) error {
 		d.Close()
 	}()
 	decoder := json.NewDecoder(d.current)
+
+	// decoder must be patched since json.Numbers are required
+	decoder.UseNumber()
+
 	if err := decoder.Decode(v.Data); err != nil {
 		return err
 	}
